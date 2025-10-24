@@ -40,6 +40,7 @@ export default function Index() {
   const [activeSection, setActiveSection] = useState('home');
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const newsItems: NewsItem[] = [
     { id: 1, title: 'Открытие нового парка в центре города', date: '23 октября 2025', category: 'Городская среда', urgent: true },
@@ -145,7 +146,7 @@ export default function Index() {
             <Button
               variant="ghost"
               size="icon"
-              className="relative"
+              className="relative hidden sm:flex"
               onClick={() => setShowNotifications(!showNotifications)}
             >
               <Icon name="Bell" className="h-5 w-5" />
@@ -158,6 +159,14 @@ export default function Index() {
             <Button onClick={handleRequestNotifications} size="sm" className="hidden sm:flex">
               <Icon name="BellRing" className="mr-2 h-4 w-4" />
               Подписаться
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <Icon name={mobileMenuOpen ? "X" : "Menu"} className="h-6 w-6" />
             </Button>
           </div>
         </div>
@@ -182,6 +191,78 @@ export default function Index() {
                 ))}
               </CardContent>
             </Card>
+          </div>
+        )}
+
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t bg-background animate-slide-up">
+            <nav className="container px-4 py-4 space-y-1">
+              <button
+                onClick={() => { setActiveSection('news'); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-muted transition-colors"
+              >
+                <Icon name="Newspaper" className="h-5 w-5 text-primary" />
+                <span className="font-medium">Новости</span>
+              </button>
+              <button
+                onClick={() => { setActiveSection('events'); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-muted transition-colors"
+              >
+                <Icon name="Calendar" className="h-5 w-5 text-primary" />
+                <span className="font-medium">Афиша</span>
+              </button>
+              <button
+                onClick={() => { setActiveSection('services'); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-muted transition-colors"
+              >
+                <Icon name="Wrench" className="h-5 w-5 text-primary" />
+                <span className="font-medium">Услуги</span>
+              </button>
+              <button
+                onClick={() => { setActiveSection('directory'); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-muted transition-colors"
+              >
+                <Icon name="BookOpen" className="h-5 w-5 text-primary" />
+                <span className="font-medium">Справочник</span>
+              </button>
+              <button
+                onClick={() => { setActiveSection('map'); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-muted transition-colors"
+              >
+                <Icon name="MapPin" className="h-5 w-5 text-primary" />
+                <span className="font-medium">Карта города</span>
+              </button>
+              <button
+                onClick={() => { setActiveSection('forum'); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-muted transition-colors"
+              >
+                <Icon name="Users" className="h-5 w-5 text-primary" />
+                <span className="font-medium">Форум жителей</span>
+              </button>
+              <div className="border-t pt-3 mt-3">
+                <button
+                  onClick={() => { setShowNotifications(!showNotifications); setMobileMenuOpen(false); }}
+                  className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-muted transition-colors"
+                >
+                  <div className="relative">
+                    <Icon name="Bell" className="h-5 w-5 text-primary" />
+                    {notifications.length > 0 && (
+                      <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white">
+                        {notifications.length}
+                      </span>
+                    )}
+                  </div>
+                  <span className="font-medium">Уведомления</span>
+                </button>
+                <Button 
+                  onClick={() => { handleRequestNotifications(); setMobileMenuOpen(false); }} 
+                  className="w-full mt-2"
+                >
+                  <Icon name="BellRing" className="mr-2 h-4 w-4" />
+                  Подписаться на уведомления
+                </Button>
+              </div>
+            </nav>
           </div>
         )}
       </header>
