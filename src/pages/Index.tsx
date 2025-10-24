@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
+import ClassifiedsBoard from '@/components/ClassifiedsBoard';
 
 interface NewsItem {
   id: number;
@@ -370,6 +371,10 @@ export default function Index() {
               </Button>
             </CardContent>
           </Card>
+        </section>
+
+        <section className="mb-12 animate-slide-up" style={{ animationDelay: '800ms' }}>
+          <ClassifiedsBoard />
         </section>
       </main>
 
